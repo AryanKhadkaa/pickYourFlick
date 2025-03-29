@@ -30,12 +30,28 @@ export const WatchListProvider = ({
     });
     console.log(data);
 
+    // setWatchListShows((prev) => {
+    //   if (!prev) return [data]; // If prev is null, initialize as an array with the new show
+    //   return prev.some((show) => show.id === data.id) ? prev : [...prev, data];
+    // });
     setWatchListShows((prev) => {
-      if (!prev) return [data]; // If prev is null, initialize as an array with the new show
-      return prev.some((show) => show.id === data.id) ? prev : [...prev, data];
+      if (!prev) {
+        localStorage.setItem("watchlist", JSON.stringify([data])); // Save to local storage
+        return [data]; // If prev is null, initialize as an array with the new show
+      }
+      if (prev.some((show) => show.id === data.id)) return prev; // Avoid duplicates
+
+      const updatedWatchlist = [...prev, data];
+      localStorage.setItem("watchlist", JSON.stringify(updatedWatchlist)); // Save updated list
+      return updatedWatchlist;
     });
   };
   useEffect(() => {
+    const savedWatchlist = localStorage.getItem("watchlist");
+    if (savedWatchlist) {
+      setWatchListShows(JSON.parse(savedWatchlist));
+    }
+
     showId && showId !== " " && getWatchListedShow();
   }, [showId]);
 
