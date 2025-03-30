@@ -11,7 +11,7 @@ const Generate = () => {
       const generatedShow = watchListShows[randomIdx || 0];
       navigate("/generatedShow", { state: generatedShow });
     } else {
-      navigate("/generatedShow", { state: "no movie in watchlist" });
+      alert("Create a watchlist first");
     }
   };
   return (

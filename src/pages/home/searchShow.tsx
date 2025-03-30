@@ -12,11 +12,10 @@ const SearchShow = () => {
   const [showData, setShowData] = useState<streamingAvailability.Show[] | null>(
     null
   );
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [hideBlock, setHideBlock] = useState<boolean>(false);
   const [searchedShow, setSearchedShow] = useState<string>("");
 
   const fetchFilmData = async (e: any) => {
-    e.preventDefault();
     try {
       const data = await client.showsApi.searchShowsByTitle({
         title: searchedShow,
@@ -25,89 +24,91 @@ const SearchShow = () => {
       setShowData(data);
     } catch (err) {
       console.error(err);
-    } finally {
-      setIsLoading(false);
     }
   };
 
-  const searchShow = (e: any) => {
-    e.preventDefault();
-    navigate(`/search/${e.target[0].value}`);
+  const searchShow = () => {
+    navigate(`/search/${searchedShow}`);
+    setShowData([]);
   };
-
-  // useEffect(() => {
-  //   fetchFilmData();
-  // }, [searchedShow]);
+  useEffect(() => {
+    fetchFilmData(searchedShow);
+  }, [searchedShow]);
 
   return (
-    <div>
-      <div className="flex flex-col justify-center md:w-1/2 mx-auto font-Poppins">
-        <form
-          onSubmit={(e) => fetchFilmData(e)}
-          className="bg-white flex rounded-full gap-2 px-5 border border-slate-800 text-primary"
+    <div className="relative flex flex-col justify-center w-full md:w-1/2 mx-auto font-Poppins px-5">
+      <form
+        onSubmit={searchShow}
+        className="bg-white flex rounded-full gap-2 px-5 border border-slate-800 text-primary"
+      >
+        <input
+          type="text"
+          className="bg-inherit rounded-full outline-none p-5 w-full "
+          placeholder="Search for a film..."
+          onChange={(e) => setSearchedShow(e.target.value)}
+          onBlur={() => setHideBlock(true)}
+          onFocus={() => setHideBlock(false)}
+        />
+        <button type="submit">
+          <AiOutlineSearch size={35} />
+        </button>
+      </form>
+      {showData && showData?.length !== 0 && (
+        <div
+          className={`z-20 absolute w-full top-16 bg-white rounded-lg my-1 shadow-2xl flex-col text-primary
+        ${hideBlock ? "hidden" : "flex"}`}
+          onMouseDown={(e) => e.preventDefault()}
         >
-          <input
-            type="text"
-            className="bg-inherit rounded-full outline-none p-5 w-full "
-            placeholder="Search for a film..."
-            onChange={(e) => setSearchedShow(e.target.value)}
-          />
-          <button type="submit">
-            <AiOutlineSearch size={35} />
-          </button>
-        </form>
-        {showData && showData?.length !== 0 && (
-          <div className="bg-white rounded-0 shadow-2xl flex flex-col text-primary">
-            {showData?.slice(0, 5).map((show, idx) => {
-              return (
-                <div
-                  key={idx}
-                  className="flex justify-center border-b border-black/30"
-                >
-                  <Link to={`/${show.title}`} className="flex-1">
-                    <div className="  flex cursor-pointer gap-4 p-3  hover:bg-primary/20">
-                      <div className="w-[50px] overflow-hidden">
-                        <img
-                          src={show.imageSet.verticalPoster.w480}
-                          alt=""
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <h3>{show.title}</h3>
-                        <div className="text-primary/70 flex gap-4 items-center text-sm">
-                          <p>{show.showType}</p>
-                          {show.showType === "movie" ? (
-                            <>
-                              <p>{show.releaseYear}</p>
-                              <p>{show.runtime}m</p>
-                            </>
-                          ) : (
-                            <>
-                              <p>S{show.seasonCount}</p>
-                              <p>EP{show.episodeCount}</p>
-                            </>
-                          )}
-                        </div>
+          {showData?.slice(0, 5).map((show, idx) => {
+            return (
+              <div
+                key={idx}
+                className="flex justify-center border-b border-black/30 "
+              >
+                <Link to={`/search/${show.title}`} className="flex-1">
+                  <div className="  flex cursor-pointer gap-4 p-3  hover:bg-primary/20">
+                    <div className="w-[50px] overflow-hidden">
+                      <img
+                        src={show.imageSet.verticalPoster.w480}
+                        alt=""
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <h3>{show.title}</h3>
+                      <div className="text-primary/70 flex gap-4 items-center text-sm">
+                        <p>{show.showType}</p>
+                        {show.showType === "movie" ? (
+                          <>
+                            <p>{show.releaseYear}</p>
+                            <p>{show.runtime}m</p>
+                          </>
+                        ) : (
+                          <>
+                            <p>S{show.seasonCount}</p>
+                            <p>EP{show.episodeCount}</p>
+                          </>
+                        )}
                       </div>
                     </div>
-                  </Link>
+                  </div>
+                </Link>
 
-                  <AddToWatchList showId={show.imdbId} />
-                </div>
-              );
-            })}
-            <div>
-              <button
-                onClick={searchShow}
-                className="group w-full text-center bg-third rounded-0 py-2 text-sm text-secondary"
-              >
-                See all results {">"}
-              </button>
-            </div>
+                <AddToWatchList showId={show.imdbId} />
+              </div>
+            );
+          })}
+          <div>
+            <button
+              onClick={searchShow}
+              className="group w-full text-center bg-third rounded-b-lg py-2 text-sm text-secondary"
+              type="submit"
+            >
+              See all results {">"}
+            </button>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

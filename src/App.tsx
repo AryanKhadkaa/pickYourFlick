@@ -1,27 +1,29 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/home/home";
-import WatchList from "./pages/watchList";
 import Navbar from "./components/navbar";
 import { WatchListProvider } from "./contexts/watchlistContext";
-import GeneratedShow from "./pages/generatedShow";
-import { Suspense } from "react";
+import { lazy, Suspense } from "react";
 import Loader from "./components/loader";
 
 function App() {
+  const Home = lazy(() => import("./pages/home/home"));
+  const WatchList = lazy(() => import("./pages/watchList"));
+  const GeneratedShow = lazy(() => import("./pages/generatedShow"));
+  const SearchPage = lazy(() => import("./pages/searchPage"));
   return (
-    <div className="App bg-primary">
+    <div className="App bg-primary min-h-screen">
       <WatchListProvider>
-        <Suspense fallback={<Loader />}>
-          <Router>
-            <Navbar />
+        <Router>
+          <Navbar />
+          <Suspense fallback={<Loader />}>
             <Routes>
-              <Route path="/" element={<Home />}></Route>
-              <Route path="/watchlist" element={<WatchList />}></Route>
-              <Route path="/generatedShow" element={<GeneratedShow />}></Route>
+              <Route path="/" element={<Home />} />
+              <Route path="/watchlist" element={<WatchList />} />
+              <Route path="/generatedShow" element={<GeneratedShow />} />
+              <Route path="/search/:show" element={<SearchPage />} />
             </Routes>
-          </Router>
-        </Suspense>
+          </Suspense>
+        </Router>
       </WatchListProvider>
     </div>
   );
