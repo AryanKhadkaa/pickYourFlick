@@ -15,7 +15,7 @@ const SearchShow = () => {
   const [hideBlock, setHideBlock] = useState<boolean>(false);
   const [searchedShow, setSearchedShow] = useState<string>("");
 
-  const fetchFilmData = async (e: any) => {
+  const fetchFilmData = async () => {
     try {
       const data = await client.showsApi.searchShowsByTitle({
         title: searchedShow,
@@ -32,7 +32,7 @@ const SearchShow = () => {
     setShowData([]);
   };
   useEffect(() => {
-    fetchFilmData(searchedShow);
+    fetchFilmData();
   }, [searchedShow]);
 
   return (
