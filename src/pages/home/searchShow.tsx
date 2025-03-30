@@ -20,7 +20,7 @@ const SearchShow = () => {
     try {
       const data = await client.showsApi.searchShowsByTitle({
         title: searchedShow,
-        country: "gb",
+        country: "us",
       });
       setShowData(data);
     } catch (err) {

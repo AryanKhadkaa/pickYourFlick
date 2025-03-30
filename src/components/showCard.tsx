@@ -15,9 +15,10 @@ const ShowCard = ({ show }: { show: streamingAvailability.Show }) => {
         <RemoveFromWatchList showId={show.imdbId} />
         <h2 className="text-lg">{show.title}</h2>
         <div className="flex justify-around px-2 text-sm text-secondary/80">
-          <p>{show.releaseYear}</p>
+          {/* <p>{show.releaseYear}</p>
           <p>{show.showType}</p>
-          <p>{show.runtime}m</p>
+          <p>{show.runtime}m</p> */}
+          <p className="text-[12px]">{show.overview}</p>
         </div>
       </div>
     </div>
