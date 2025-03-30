@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <nav className="bg-primary text-secondary font-Poppins ">
-      <div className="flex justify-between max-w-7xl mx-auto px-5 py-4 border-b border-white/10">
+      <div className="flex justify-between max-w-7xl mx-auto px-5 py-4 border-b border-white/30">
         <div>
           <h1 className="text-2xl font-bold">
             PickYour<span className="text-third font-bold">Flick</span>

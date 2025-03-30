@@ -6,6 +6,8 @@ interface contextType {
   showId: string | null;
   getShowId: (id: string) => void;
   watchListShows: streamingAvailability.Show[] | null;
+  removeId: string | null;
+  getRemoveId: (id: string) => void;
 }
 
 const watchListContext = createContext<contextType | null>(null);
@@ -16,24 +18,28 @@ export const WatchListProvider = ({
   children: React.ReactNode;
 }) => {
   const [showId, setShowId] = useState<string | null>(null);
-
-  const getShowId = (id: string) => {
-    setShowId(id);
-  };
+  const [removeId, setRemoveId] = useState<string | null>(null);
   const [watchListShows, setWatchListShows] = useState<
     streamingAvailability.Show[] | null
   >(null);
 
+  const getShowId = (id: string) => {
+    setShowId(id);
+  };
+
+  const getRemoveId = (id: string) => {
+    setRemoveId(id);
+    console.log(removeId);
+  };
+
   const getWatchListedShow = async () => {
+    if (!showId || showId === " ") return;
     const data = await client.showsApi.getShow({
       id: showId || " ",
     });
     console.log(data);
 
-    // setWatchListShows((prev) => {
-    //   if (!prev) return [data]; // If prev is null, initialize as an array with the new show
-    //   return prev.some((show) => show.id === data.id) ? prev : [...prev, data];
-    // });
+    // adding shows to watchList
     setWatchListShows((prev) => {
       if (!prev) {
         localStorage.setItem("watchlist", JSON.stringify([data])); // Save to local storage
@@ -41,28 +47,31 @@ export const WatchListProvider = ({
       }
       if (prev.some((show) => show.id === data.id)) return prev; // Avoid duplicates
 
-      const updatedWatchlist = [...prev, data];
-      localStorage.setItem("watchlist", JSON.stringify(updatedWatchlist)); // Save updated list
-      return updatedWatchlist;
+      const updatedWatchList = [...prev, data];
+      localStorage.setItem("watchlist", JSON.stringify(updatedWatchList)); // Save updated list
+      return updatedWatchList;
     });
   };
+
   useEffect(() => {
     const savedWatchlist = localStorage.getItem("watchlist");
     if (savedWatchlist) {
       setWatchListShows(JSON.parse(savedWatchlist));
     }
 
-    showId && showId !== " " && getWatchListedShow();
+    getWatchListedShow();
   }, [showId]);
 
   return (
-    <watchListContext.Provider value={{ watchListShows, getShowId, showId }}>
+    <watchListContext.Provider
+      value={{ watchListShows, getShowId, showId, removeId, getRemoveId }}
+    >
       {children}
     </watchListContext.Provider>
   );
 };
 
-// now custom hook to use showId and getShowId
+// now custom hook to use the show details for watchList
 export const useWatchListContext = () => {
   const context = useContext(watchListContext);
   if (!context) {

@@ -1,3 +1,4 @@
+import Generate from "../../components/generate";
 import SearchShow from "./searchShow";
 
 const Home = () => {
@@ -6,15 +7,18 @@ const Home = () => {
       <div className="max-w-7xl mx-auto px-5 py-12">
         <div className="flex flex-col gap-8 justify-center text-center max-w-[800px] mx-auto py-10">
           <h1 className="text-2xl md:text-5xl lg:text-6xl font-bold">
-            Finish your watchlist before you know it
+            Build Your Ideal Watchlist and Never Miss a Show!
           </h1>
           <p className="w-full md:w-[70%] mx-auto text-secondary/80">
-            Browse through movies and shows world wide, create watchlists and
-            generate a movie to watch when you want.
+            Discover movies world wide, build your watchlists, and let us choose
+            your next movie.
           </p>
         </div>
         <div>
           <SearchShow />
+        </div>
+        <div>
+          <Generate />
         </div>
       </div>
     </section>

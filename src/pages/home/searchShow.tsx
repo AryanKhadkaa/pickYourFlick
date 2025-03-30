@@ -15,7 +15,8 @@ const SearchShow = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchedShow, setSearchedShow] = useState<string>("");
 
-  const fetchFilmData = async () => {
+  const fetchFilmData = async (e: any) => {
+    e.preventDefault();
     try {
       const data = await client.showsApi.searchShowsByTitle({
         title: searchedShow,
@@ -34,15 +35,15 @@ const SearchShow = () => {
     navigate(`/search/${e.target[0].value}`);
   };
 
-  useEffect(() => {
-    fetchFilmData();
-  }, [searchedShow]);
+  // useEffect(() => {
+  //   fetchFilmData();
+  // }, [searchedShow]);
 
   return (
     <div>
       <div className="flex flex-col justify-center md:w-1/2 mx-auto font-Poppins">
         <form
-          onSubmit={(e) => searchShow(e)}
+          onSubmit={(e) => fetchFilmData(e)}
           className="bg-white flex rounded-full gap-2 px-5 border border-slate-800 text-primary"
         >
           <input
