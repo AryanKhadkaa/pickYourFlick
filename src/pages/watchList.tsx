@@ -1,6 +1,6 @@
 import { useWatchListContext } from "../contexts/watchlistContext";
 import ShowCard from "../components/showCard";
-import { Link } from "react-router-dom";
+import Generate from "../components/generate";
 
 const WatchList = () => {
   const { watchListShows } = useWatchListContext();
@@ -22,9 +22,10 @@ const WatchList = () => {
             </p>
           </div>
           <div>
-            <button className="bg-yellow-600 text-sm px-4 py-1">
+            {/* <button className="bg-yellow-600 text-sm px-4 py-1">
               <Link to={"/"}>Browse More</Link>
-            </button>
+            </button> */}
+            <Generate />
           </div>
         </div>
         <div className=" py-6 my-4">

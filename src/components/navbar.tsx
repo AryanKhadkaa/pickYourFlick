@@ -1,8 +1,30 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const [hasUserScrolled, setHasUserScrolled] = useState<boolean>(false);
+
+  const handleScroll = () => {
+    if (window.scrollY > 50) setHasUserScrolled(true);
+    else setHasUserScrolled(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
-    <nav className="fixed w-full z-50 top-0 bg-transparent text-secondary font-Poppins shadow-0 shadow-secondary/10">
+    <nav
+      className={`fixed w-full z-50 top-0  text-secondary font-Poppins  transition-all ease-linear
+        ${
+          hasUserScrolled
+            ? "bg-primary shadow-sm shadow-secondary/30"
+            : "bg-transparent"
+        }
+        `}
+    >
       <div className="flex flex-wrap items-center justify-between gap-5 max-w-7xl mx-auto px-5 py-4 border-b-0 border-white/30">
         <div>
           <Link to={"/"}>

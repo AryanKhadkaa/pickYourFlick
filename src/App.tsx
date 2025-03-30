@@ -5,19 +5,23 @@ import WatchList from "./pages/watchList";
 import Navbar from "./components/navbar";
 import { WatchListProvider } from "./contexts/watchlistContext";
 import GeneratedShow from "./pages/generatedShow";
+import { Suspense } from "react";
+import Loader from "./components/loader";
 
 function App() {
   return (
     <div className="App bg-primary">
       <WatchListProvider>
-        <Router>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />}></Route>
-            <Route path="/watchlist" element={<WatchList />}></Route>
-            <Route path="/generatedShow" element={<GeneratedShow />}></Route>
-          </Routes>
-        </Router>
+        <Suspense fallback={<Loader />}>
+          <Router>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />}></Route>
+              <Route path="/watchlist" element={<WatchList />}></Route>
+              <Route path="/generatedShow" element={<GeneratedShow />}></Route>
+            </Routes>
+          </Router>
+        </Suspense>
       </WatchListProvider>
     </div>
   );

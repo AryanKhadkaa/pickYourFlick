@@ -17,7 +17,10 @@ const Home = () => {
         <div>
           <SearchShow />
         </div>
-        <div>
+        <div className="py-10 flex flex-col gap-3 justify-center items-center">
+          <p className="text-secondary/70 text-sm">
+            Already have your watchlist set?
+          </p>
           <Generate />
         </div>
       </div>
