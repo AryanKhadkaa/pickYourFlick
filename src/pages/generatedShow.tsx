@@ -4,7 +4,6 @@ import ShowCard from "../components/showCard";
 const GeneratedShow = () => {
   const location = useLocation();
   const show = location.state;
-  console.log(show);
 
   const seenServices = new Set<string>();
 
@@ -12,8 +11,6 @@ const GeneratedShow = () => {
   const firstKey = Object.keys(streamingOptions || {})[0]; //getting the first key of the object (here, it is a country code)
   const firstStreamingOption = streamingOptions[firstKey]; //dynamically accessing the first value of the object using [firstKey]
   const streamingPlatforms = streamingOptions.us || firstStreamingOption;
-
-  console.log(streamingPlatforms);
 
   return (
     <section className="font-Poppins text-secondary">

@@ -18,7 +18,6 @@ const SearchShow = () => {
   const fetchFilmData = async () => {
     if (searchedShow === " " || !searchedShow) return;
 
-    console.log("yes");
     try {
       const data = await client.showsApi.searchShowsByTitle({
         title: searchedShow,
