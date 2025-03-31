@@ -13,9 +13,12 @@ const SearchShow = () => {
     null
   );
   const [hideBlock, setHideBlock] = useState<boolean>(false);
-  const [searchedShow, setSearchedShow] = useState<string>("");
+  const [searchedShow, setSearchedShow] = useState<string>(" ");
 
   const fetchFilmData = async () => {
+    if (searchedShow === " " || !searchedShow) return;
+
+    console.log("yes");
     try {
       const data = await client.showsApi.searchShowsByTitle({
         title: searchedShow,
