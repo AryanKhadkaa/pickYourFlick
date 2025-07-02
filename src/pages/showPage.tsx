@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { client } from "../components/apiClient";
 import Loader from "../components/loader";
 
 export const ShowPage = () => {
   const [show, setShow] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const { showId } = useParams();
-  console.log(showId);
+  const { showId, section } = useParams();
+  console.log(show);
+
+  const activeSection = section?.toLowerCase() || "cast";
 
   const getShow = async () => {
     try {
@@ -24,7 +26,6 @@ export const ShowPage = () => {
   useEffect(() => {
     getShow();
   }, []);
-  const navigate = useNavigate();
 
   return isLoading ? (
     <Loader />
@@ -32,7 +33,7 @@ export const ShowPage = () => {
     <div className="font-Poppins">
       <div className="max-w-7xl mx-auto py-20">
         <div className=" flex flex-col items-center md:items-start gap-10 md:flex-row py-10 px-5">
-          <div className="bg-red-0">
+          <div className="">
             <div className="group w-full max-w-[350px] bg-blue-0 mx-auto rounded-lg overflow-hidden">
               <img
                 src={show?.imageSet.verticalPoster.w720}
@@ -41,7 +42,7 @@ export const ShowPage = () => {
               />
             </div>
           </div>
-          <div className="">
+          <div className="w-full md:flex-1">
             <div className="bg-red-0 ">
               <div className="space-x-2 bg-red-0 ">
                 <span className="text-2xl sm:text-3xl">
@@ -63,31 +64,66 @@ export const ShowPage = () => {
                 <p>{show?.overview}</p>
               </div>
             </div>
-            <div className="bg-blue-0 w-full">
+            <div className="bg-blue-0">
               <ul className="flex gap-4 border-b-[1px] py-2 border-gray-700">
                 {["Cast", "Genres", "Details"].map((item, idx) => {
                   return (
-                    <li
-                      className="cursor-pointer"
+                    <Link
+                      to={`/show/${showId}/${item.toLowerCase()}`}
+                      className={`cursor-pointer ${
+                        activeSection === item.toLowerCase()
+                          ? "border-b-2"
+                          : "border-b-0"
+                      }`}
                       key={idx}
                     >
                       {item}
-                    </li>
+                    </Link>
                   );
                 })}
               </ul>
-              <div className="flex flex-wrap bg-green-0 py-4 gap-2">
-                {show &&
-                  show.cast.map((actor: string, idx: number) => {
-                    return (
-                      <div
-                        key={idx}
-                        className="text-sm p-2 bg-white/30 rounded-sm"
-                      >
-                        <span>{actor}</span>
-                      </div>
-                    );
-                  })}
+              <div className="w-full py-4 ">
+                {activeSection === "cast" && (
+                  <div className="flex flex-wrap gap-2 ">
+                    {show.cast.map((actor: string, idx: number) => {
+                      return (
+                        <div
+                          key={idx}
+                          className="text-sm p-2 bg-white/30 rounded-sm"
+                        >
+                          <span>{actor}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {activeSection === "genres" && (
+                  <div className="flex flex-wrap gap-2 ">
+                    {show.genres.map(
+                      (genre: { id: string; name: string }, idx: number) => {
+                        return (
+                          <div
+                            key={idx}
+                            className="text-sm p-2 bg-white/30 rounded-sm"
+                          >
+                            <span>{genre.name}</span>
+                          </div>
+                        );
+                      }
+                    )}
+                  </div>
+                )}
+                {activeSection === "details" && (
+                  <div className="flex flex-wrap gap-2">
+                    <div className="text-sm p-2 bg-white/30 rounded-sm">
+                      <span>{show.runtime}m</span>
+                    </div>
+                    <div className="text-sm p-2 bg-white/30 rounded-sm">
+                      <span>{show.rating}/100</span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

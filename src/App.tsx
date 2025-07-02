@@ -22,7 +22,8 @@ function App() {
               <Route path="/watchlist" element={<WatchList />} />
               <Route path="/generatedShow" element={<GeneratedShow />} />
               <Route path="/search/:show" element={<SearchPage />} />
-              <Route path="/show/:showId" element={<ShowPage />}></Route>
+              <Route path="/show/:showId/:section?" element={<ShowPage />}>
+              </Route>
             </Routes>
           </Suspense>
         </Router>
