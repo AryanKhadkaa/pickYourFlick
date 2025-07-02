@@ -30,8 +30,11 @@ export const ShowPage = () => {
   return isLoading ? (
     <Loader />
   ) : (
-    <div className="font-Poppins">
-      <div className="max-w-7xl mx-auto py-20">
+    <div className="relative font-Poppins">
+      <div className="absolute inset-0 opacity-5">
+        <img src={show.imageSet.horizontalBackdrop.w720} alt="" className="w-full h-full object-cover"/>
+      </div>
+      <div className="relative max-w-7xl mx-auto py-20  ">
         <div className=" flex flex-col items-center md:items-start gap-10 md:flex-row py-10 px-5">
           <div className="">
             <div className="group w-full max-w-[350px] bg-blue-0 mx-auto rounded-lg overflow-hidden">
