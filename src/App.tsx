@@ -4,6 +4,7 @@ import Navbar from "./components/navbar";
 import { WatchListProvider } from "./contexts/watchlistContext";
 import { lazy, Suspense } from "react";
 import Loader from "./components/loader";
+import { ShowPage } from "./pages/showPage";
 
 function App() {
   const Home = lazy(() => import("./pages/home/home"));
@@ -21,6 +22,7 @@ function App() {
               <Route path="/watchlist" element={<WatchList />} />
               <Route path="/generatedShow" element={<GeneratedShow />} />
               <Route path="/search/:show" element={<SearchPage />} />
+              <Route path="/show/:showId" element={<ShowPage />}></Route>
             </Routes>
           </Suspense>
         </Router>

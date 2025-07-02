@@ -8,7 +8,7 @@ const WatchList = () => {
   return (
     <section className="bg-primary font-Poppins text-secondary">
       <div className=" max-w-7xl mx-auto px-5 py-20">
-        <div className="flex flex-col md:flex-row gap-5 md:gap-0 md:items-center md:justify-between border-b border-secondary/40 py-6">
+       <div className="flex flex-col md:flex-row gap-5 md:gap-0 md:items-center md:justify-between border-b border-secondary/40 py-6">
           <div className="space-y-2">
             <h1 className="text-xl font-bold">
               Watchlist |

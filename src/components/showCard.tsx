@@ -1,8 +1,14 @@
+
+import { useNavigate } from "react-router-dom";
 import * as streamingAvailability from "streaming-availability";
 
 const ShowCard = ({ show }: { show: streamingAvailability.Show }) => {
+
+  const navigate = useNavigate();
   return (
-    <div className="group relative h-[350px] cursor-pointer overflow-hidden">
+    <div className="p-3 group flex justify-center items-center relative h-[350px] cursor-pointer overflow-hidden" onClick={()=>{
+navigate(`/show/${show.id}`)
+    }}>
       <article className="group w-full h-full rounded-md">
         <img
           src={show.imageSet.verticalPoster.w480}

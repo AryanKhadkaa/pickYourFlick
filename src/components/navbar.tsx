@@ -17,11 +17,11 @@ const Navbar = () => {
   }, []);
   return (
     <nav
-      className={`fixed w-full z-50 top-0  text-secondary font-Poppins  transition-all ease-linear
+      className={`fixed w-full z-50 top-0 text-secondary font-Poppins transition-all ease-linear
         ${
           hasUserScrolled
-            ? "bg-primary shadow-sm shadow-secondary/30"
-            : "bg-transparent"
+            ? "bg-primary shadow-md shadow-secondary/40"
+            : "bg-transparent shadow-sm shadow-secondary/30"
         }
         `}
     >

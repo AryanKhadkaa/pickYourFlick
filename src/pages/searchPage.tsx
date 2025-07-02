@@ -12,6 +12,8 @@ const SearchPage = () => {
 
   const [shows, setShows] = useState<streamingAvailability.Show[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  
   const getAllFilm = async () => {
     try {
       const data = await client.showsApi.searchShowsByTitle({
